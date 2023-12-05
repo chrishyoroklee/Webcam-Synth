@@ -68,7 +68,7 @@ function playSynthSound(landmarks) {
   );
 
   // Map hand openness to amplitude (adjust the scaling factor as needed)
-  let amplitude = map(handOpenness, 0, width, 0, 40);
+  let amplitude = map(handOpenness, 0, width, -10, 25);
 
   // Map hand keypoints' x and y coordinates to synth frequency
   let gridX = Math.floor(map(landmarks[9][0], 0, width, 0, 5));
