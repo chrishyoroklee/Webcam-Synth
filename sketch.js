@@ -10,8 +10,8 @@ function setup() {
 
   handpose = ml5.handpose(video, modelReady);
   // Initialize Tone.js synth
-  synth = new Tone.Synth().toDestination();
-
+  synth = new Tone.FMSynth().toDestination();
+  const autoWah = new Tone.AutoWah(50, 6, -30).toDestination();
   // This sets up an event that fills the global variable "predictions"
   // with an array every time new hand poses are detected
   handpose.on("predict", results => {
@@ -35,8 +35,8 @@ function draw() {
   if (predictions.length > 0) {
     playSynthSound(predictions[0].landmarks);
   }
-
 }
+
 function drawGrid(){
     //Grid system for notes
   for (let x =0; x<8; x++){
@@ -68,7 +68,7 @@ function playSynthSound(landmarks) {
   );
 
   // Map hand openness to amplitude (adjust the scaling factor as needed)
-  let amplitude = map(handOpenness, 0, width, -20, 20);
+  let amplitude = map(handOpenness, 0, width, 0, 40);
 
   // Map hand keypoints' x and y coordinates to synth frequency
   let gridX = Math.floor(map(landmarks[9][0], 0, width, 0, 5));
@@ -90,9 +90,9 @@ function playSynthSound(landmarks) {
 
 function getNoteFromGridPosition(x, y){
   //Define the notes for each grid position
-  const notes = ['Ab', 'A', 'Bb', 'B', 'C'];
+  const notes = ['D', 'D#', 'F#', 'G', 'A', 'A#', 'C'];
   //Define the octaves for each row
-  const octaves = [0, 1, 2];
+  const octaves = [1, 2, 3];
   
   //Get the note and octave for the given grid position
   let note = notes[x % notes.length];
